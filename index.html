@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Special Surprise</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f5f5f7;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+                 "Helvetica Neue", Helvetica, Arial, sans-serif;
+    overflow: hidden;
+}
+
+/* Card */
+.container {
+    background: white;
+    padding: 50px 40px;
+    border-radius: 24px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.08);
+    text-align: center;
+    width: 380px;
+    position: relative;
+    z-index: 2;
+}
+
+h1 {
+    font-weight: 600;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #1d1d1f;
+}
+
+p {
+    font-size: 15px;
+    color: #6e6e73;
+    line-height: 1.6;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 14px;
+    border: 1px solid #d2d2d7;
+    font-size: 16px;
+    margin-bottom: 20px;
+    outline: none;
+    transition: 0.3s;
+}
+
+input:focus {
+    border-color: #0071e3;
+    box-shadow: 0 0 0 4px rgba(0,113,227,0.15);
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    border-radius: 14px;
+    border: none;
+    background: #0071e3;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #005bb5;
+}
+
+.secondary-btn {
+    background: #e5e5ea;
+    color: #1d1d1f;
+    margin-top: 15px;
+}
+
+.secondary-btn:hover {
+    background: #d1d1d6;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Fade animation */
+.fade {
+    animation: fadeIn 0.8s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Celebration confetti */
+.confetti {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: red;
+    top: -10px;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Step 1 -->
+    <div id="step1">
+        <h1>Enter Your Name</h1>
+        <input type="text" id="nameInput" placeholder="Type in CAPITAL letters">
+        <button onclick="checkName()">Continue</button>
+    </div>
+
+    <!-- Step 2 -->
+    <div id="step2" class="hidden">
+        <h1>Here's a Surprise for You 🎁</h1>
+        <button onclick="showCongrats()">Reveal Surprise</button>
+    </div>
+
+    <!-- Step 3 -->
+    <div id="step3" class="hidden">
+        <h1>Congrats BIMALA 🎉</h1>
+        <p>
+            Congratulations on your new journey, Bimala! 🎉<br><br>
+            Wishing you all the very best in the days ahead.  
+            To celebrate this exciting new chapter, we at Nextera  
+            would love to send you a small token of appreciation.
+        </p>
+        <button class="secondary-btn" onclick="downloadPDF()">Download Bill</button>
+    </div>
+
+</div>
+
+<script>
+function checkName() {
+    const name = document.getElementById("nameInput").value;
+
+    if (name === "BIMALA") {
+        document.getElementById("step1").classList.add("hidden");
+        document.getElementById("step2").classList.remove("hidden");
+        document.getElementById("step2").classList.add("fade");
+    } else {
+        alert("Please enter the name exactly as: BIMALA");
+    }
+}
+
+function showCongrats() {
+    document.getElementById("step2").classList.add("hidden");
+    const step3 = document.getElementById("step3");
+    step3.classList.remove("hidden");
+    step3.classList.add("fade");
+
+    launchConfetti();
+}
+
+function downloadPDF() {
+    const link = document.createElement("a");
+    link.href = "bill.pdf";
+    link.download = "Bimala_Bill.pdf";
+    link.click();
+}
+
+/* Confetti effect */
+function launchConfetti() {
+    const colors = ["#0071e3", "#34c759", "#ff2d55", "#ffcc00", "#af52de"];
+
+    for (let i = 0; i < 120; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+        confetti.style.left = Math.random() * 100 + "vw";
+        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDuration = (Math.random() * 3 + 2) + "s";
+        document.body.appendChild(confetti);
+
+        setTimeout(() => confetti.remove(), 5000);
+    }
+}
+</script>
+
+</body>
+</html>
